@@ -76,7 +76,7 @@ setup_terminal() {
 setup_terminal || echo > /dev/null
 # ------------------------------------------------------------------------------------------------
 # váriaveis de ambiente
-export VERSION="init_warkstaton [1.0.0v] by ekaxis (built: Jun 17 2020 13:09:11)"
+export VERSION="init-warkstaton [1.0.0v] by ekaxis (built: Jun 17 2020 13:09:11)"
 # ------------------------------------------------------------------------------------------------
 # informações do sistema
 systeminfo() {
@@ -104,7 +104,7 @@ fatal() {
 # ------------------------------------------------------------------------------------------------
 # operação bem sucedida
 run_ok() {
-	printf >&2 "\t${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} \n"
+	printf >&2 " ${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} \n"
 }
 ok_dependencie() {
     printf >&2 "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} OK ${TPUT_RESET} ${*}\n"
@@ -215,7 +215,8 @@ else
     ok_dependencie "$(pip3 --version)"
 fi
 if [ "apt-get" = $package_manager ]; then
-	echo "\n [!] has been identified your distribution is based on debian, download the following packages for the correct functioning of the tools"
+    echo
+	echo " [!] has been identified your distribution is based on debian, download the following packages for the correct functioning of the tools"
     echo
     warning "${TPUT_BGGREEN}${TPUT_WHITE}${TPUT_BOLD} RUN ${TPUT_RESET} $package_manager install libcurl4-openssl-dev libssl-dev -y $hidden_install"
 fi
@@ -234,5 +235,5 @@ progress "download wordlist from wfuzz and rockyou"
 run git clone --quiet $WFUZZ_REPO || fatal "unable to clone repository"
 # run mkdir /var/lib/wordlist || run_failed "folder already exists"
 run cp -rf wfuzz/wordlist /var/lib/
-run wget https://raw.githubusercontent.com/praetorian-code/Hob0Rules/master/wordlists/rockyou.txt.gz -o /var/lib/wordlist/rockyou.txt.gz
+run curl https://raw.githubusercontent.com/praetorian-code/Hob0Rules/master/wordlists/rockyou.txt.gz --output /var/lib/wordlist/rockyou.txt.gz
 run gunzip /var/lib/wordlist/rockyou.txt.gz
