@@ -236,4 +236,5 @@ run git clone --quiet $WFUZZ_REPO || fatal "unable to clone repository"
 # run mkdir /var/lib/wordlist || run_failed "folder already exists"
 run cp -rf wfuzz/wordlist /var/lib/
 run curl https://raw.githubusercontent.com/praetorian-code/Hob0Rules/master/wordlists/rockyou.txt.gz --output /var/lib/wordlist/rockyou.txt.gz
+run curl https://raw.githubusercontent.com/danielmiessler/SecLists/master/Usernames/top-usernames-shortlist.txt --output /var/lib/wordlist/top-usernames-shortlist.txt
 run gunzip /var/lib/wordlist/rockyou.txt.gz
