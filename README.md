@@ -4,7 +4,7 @@ sh, py, php, txt, yml
 
 #### randstr.py
 
-Gerar string aleatórias em diversos formatos, com/sem caracteres especiais, letras maiúsculas e/ou menúsculas.
+Gerar strings aleatórias em diversos formatos, com/sem caracteres especiais, letras maiúsculas e/ou menúsculas.
 
 #### init-workstation.sh
 
