@@ -25,6 +25,8 @@ Classe para mudar cor das letras do terminal
 * [bold,] cyan
 * [bold,] gray
 
+![python color.py](img/color.py.png)
+
 #### fuzz.py
 
 fuzzy/brute-force em páginas web simples, feito apenas para resolução de challenges. Executa com concurrent.features

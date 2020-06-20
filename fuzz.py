@@ -22,19 +22,22 @@ URL_LOGIN = ''
 
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-def err(msg): print('ops... error is %s' % msg); exit(1)
+def err(msg): print(' ops... error is %s' % msg); exit(1)
 
 def try_login(payload):
-    datapost = "username=FUZZ&password=password".replace('FUZZ', payload)
-    rq = requests.post(url=URL_LOGIN, data=datapost, headers=headers)
+    try:
+        datapost = "username=FUZZ&password=password".replace('FUZZ', payload)
+        rq = requests.post(url=URL_LOGIN, data=datapost, headers=headers)
 
-    logging.warning(' - requests with payload "%s" and response "%s"' % (datapost, rq.status_code))
+        logging.warning(' - requests with payload "%s" and response "%s"' % (datapost, rq.status_code))
 
-    if not 'No account found with that username.' in rq.text:
-        print(' * find my frind! \\0.0/\n\tpayload: %s' % (payload))
-        os.system('echo "%s" >> ok.txt' % payload)
+        if not 'No account found with that username.' in rq.text:
+            print(' * find my frind! \\0.0/\n\tpayload: %s' % (payload))
+            os.system('echo "%s" >> ok.txt' % payload)
         return True
-    return False
+    except Exception as e:
+        err('- to request > %s' % e)
+        return False
 
 def load_wordlist(path):
     fp = open(path, mode='r', errors='ignore')
@@ -51,21 +54,27 @@ if __name__ == '__main__':
     logging.getLogger('requests').setLevel(logging.WARNING)
     logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s\t %(message)s', filename='fuzz.log', filemode='a+')
 
-    print(' hi, friend! fuzz script init :D')
-
     try:
         if len(sys.argv) >= 2:
+            print(' hi, friend! fuzz script init :D')
+
             if not os.path.isfile(sys.argv[1]):
                 err('wordlist path not found :(')
             wordlist = load_wordlist(sys.argv[1])
+
             try:
-                # main(wordlist)
-                for payload in payloads: try_login(payload)
+                for payload in wordlist:
+                    resp = try_login(payload)
+                    if resp is False:
+                        print(' [!] failed to request with payload "%s"' % payload)
+                        try_login(payload)
+                print(' eh isto, quem achou achou, quem não paciência...')
+
             except Exception as e:
-                err(' - main function > ' % e)
+                err(' - main function > %s ' % e)
         else:
-            print('usage: %s %s' % (sys.argv[0], 'path/to/wordlist'))
+            print(' usage: %s %s' % (sys.argv[0], 'path/to/wordlist'))
     except KeyboardInterrupt:
         sys.stdout.write('\n\r ok ok, vou terminar aqui...')
     except Exception as e:
-        err(e)
+        err('- grant - %s' % e)

@@ -99,5 +99,3 @@ if __name__ == '__main__':
 	print(Color.s('{C}Testing{P}String{W}'))
 	Color.pl('{+} Good line')
 	Color.pl('{!} Danger')
-	Color.pl(' {O}(ง •̀_•́)ง {P}ผ(•̀_•́ผ){W} [{R}attack{W}:{BC}5444841{W}] [{BGR}Brasil{W}] vs [{BGR}Papua New Guinea{W}] [{B}defend:{BC}5489481{W}]')
-	Color.pl('\t\t{BB}(/•-•)/{W} {BG}WIN{W} [{BGR}Brasil{W}]')
