@@ -62,13 +62,3 @@ Color.pl('\n [root@aws]$ {R}aws{W} {C}ec2{W} run-instances \\\n \
 Color.pl('\n\t{BR}OR{W}\n')
 
 Color.pl(' [root@aws]$ aws {C}ec2{W} run-instances {P}--image-id{W} ami-085925f297f89fce1 {P}--instance-type{W} t2.micro {P}--key-name{W} default {P}--security-group-ids{W} sg-0efcc8890fd19836f {P}--subnet-id{W} subnet-cf6496a9 {P}--associate-public-ip-address{W}\n')
-
-
-'''
-[--monitoring <value>] true|false
-[--security-groups <value>] "string" "string"
-[--user-data <value>]
-[--private-ip-address <value>]
---associate-public-ip-address
-'''
-

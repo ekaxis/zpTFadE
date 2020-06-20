@@ -30,3 +30,11 @@ def k():
         l = string.ascii_lowercase
         u+=l[random.randint(0, len(l)-1)]
     return u
+
+# Ex. output: dndirm
+def k():
+    u = ''
+    for i in range(6):
+        l = string.ascii_lowercase+string.ascii_uppercase
+        u+=l[random.randint(0, len(l)-1)]
+    return u

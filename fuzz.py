@@ -27,14 +27,17 @@ def err(msg): print(' ops... error is %s' % msg); exit(1)
 def try_login(payload):
     try:
         datapost = "username=FUZZ&password=password".replace('FUZZ', payload)
-        rq = requests.post(url=URL_LOGIN, data=datapost, headers=headers)
+        rq = requests.post(url=URL_LOGIN, data=datapost, headers=headers, timeout=5)
 
         logging.warning(' - requests with payload "%s" and response "%s"' % (datapost, rq.status_code))
 
         if not 'No account found with that username.' in rq.text:
             print(' * find my frind! \\0.0/\n\tpayload: %s' % (payload))
             os.system('echo "%s" >> ok.txt' % payload)
+
+        sys.stdout.write('\r try [%s:%s]\t' % (payload, rq.status_code))
         return True
+
     except Exception as e:
         err('- to request > %s' % e)
         return False
