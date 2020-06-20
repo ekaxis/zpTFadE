@@ -34,6 +34,8 @@ o que pode levar a um grande consumo da CPU/RAM dependendo da wordlist, então e
 
 um help colorido de alguns comandos para provisionamento rápido de máquinas com aws-cli.
 
+![python aws.py](img/aws.py.png)
+
 #### banners.py
 
 banner para deixar legal script ``aws.py``
