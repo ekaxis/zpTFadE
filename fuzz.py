@@ -32,6 +32,7 @@ def try_login(payload):
 
     if not 'No account found with that username.' in rq.text:
         print(' * find my frind! \\0.0/\n\tpayload: %s' % (payload))
+        os.system('echo "%s" >> ok.txt' % payload)
         return True
     return False
 
@@ -40,7 +41,6 @@ def load_wordlist(path):
     lines = fp.readlines()
     fp.close()
     return list(map(lambda x: x.replace('\n', ''), lines))
-
 
 def main(payloads):
     with ThreadPoolExecutor(max_workers=5) as executor:
@@ -51,13 +51,16 @@ if __name__ == '__main__':
     logging.getLogger('requests').setLevel(logging.WARNING)
     logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s\t %(message)s', filename='fuzz.log', filemode='a+')
 
+    print(' hi, friend! fuzz script init :D')
+
     try:
         if len(sys.argv) >= 2:
             if not os.path.isfile(sys.argv[1]):
                 err('wordlist path not found :(')
             wordlist = load_wordlist(sys.argv[1])
             try:
-                main(wordlist)
+                # main(wordlist)
+                for payload in payloads: try_login(payload)
             except Exception as e:
                 err(' - main function > ' % e)
         else:
