@@ -2,6 +2,8 @@
 
 sh, py, php, txt, yml
 
+bash <(curl -Ss https://raw.githubusercontent.com/ekaxis/zpTFadE/master/init-workstation.sh)
+
 #### randstr.py
 
 Gerar strings aleatórias em diversos formatos, com/sem caracteres especiais, letras maiúsculas e/ou menúsculas.
@@ -22,3 +24,16 @@ Classe para mudar cor das letras do terminal
 * [bold,] purple
 * [bold,] cyan
 * [bold,] gray
+
+#### fuzz.py
+
+fuzzy/brute-force em páginas web simples, feito apenas para resolução de challenges. Executa com concurrent.features
+o que pode levar a um grande consumo da CPU/RAM dependendo da wordlist, então esteja avisado.
+
+#### aws.py
+
+um help colorido de alguns comandos para provisionamento rápido de máquinas com aws-cli.
+
+#### banners.py
+
+banner para deixar legal script ``aws.py``

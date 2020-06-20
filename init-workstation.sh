@@ -117,7 +117,9 @@ run_failed() {
 # ------------------------------------------------------------------------------------------------
 # função para exibir barra de progresso
 progress() {
+    echo
     echo >&2 " --- ${TPUT_DIM}${TPUT_BOLD}${*}${TPUT_RESET} --- "
+    echo
 }
 # ------------------------------------------------------------------------------------------------
 # função para executar comando na máquina
@@ -155,7 +157,7 @@ run() {
     escaped_print >&2 "${@}"
     printf >&2 "${TPUT_RESET}"
 
-    "${@}" > /dev/null
+    "${@}"
 
     local ret=$?
     if [ ${ret} -ne 0 ]; then
