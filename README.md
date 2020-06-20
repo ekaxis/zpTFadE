@@ -41,3 +41,9 @@ um help colorido de alguns comandos para provisionamento rápido de máquinas co
 #### banners.py
 
 banner para deixar legal script ``aws.py``
+
+#### vocareum.py
+
+Bom, segundo a descrição do site de login https://labs.vocareum.com é um site que possui laboratórios de nuvem Vocareum para aprendizado utilizam a infraestrutura de nuvem para permitir que os alunos estejam a um clique de aplicativos de codificação. Tenho uma conta estudantil e sempre que precisava usar o aws-cli tinha que acessar o site e salvar as credenciais que expiram no ``~/.aws/credentials`` manualmente, e isso é mto chato, então resolvi automatizar criando um script para fazer isso.
+
+Ele não é perfeito, com possíveis vários bugs, porém atende a demanda, melhorias com o tempo, ou não :D
