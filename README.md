@@ -48,6 +48,10 @@ Bom, segundo a descrição do site de login https://labs.vocareum.com é um site
 
 Ele não é perfeito, com possíveis vários bugs, porém atende a demanda, melhorias com o tempo, ou não :D
 
+### Pasta exploits-htb
+
+Para salvar exploits usados na exploração de challenges no [Hack the Box](https://www.hackthebox.eu/)
+
 ### Anotações \0.0/
 
 #### Cross-Site Scripting
