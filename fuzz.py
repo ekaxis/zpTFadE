@@ -30,7 +30,8 @@ class CustomRequests(threading.Thread):
 
     headers_class = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
-        'Accept-Encoding': 'gzip, deflate'
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'application/x-www-form-urlencoded'
     }
 
     def __init__(self, method_req='POST', url='', pattern='', payload='', datapost=None, headers=None):
@@ -49,7 +50,7 @@ class CustomRequests(threading.Thread):
     def run(self):
         while not self.kill.is_set():
             try:
-                sys.stdout.write('\r try > %s' % self.datapost)
+                sys.stdout.write('\r try > %s %s' % (self.datapost, ' '*40))
                 response = requests.post(self.url, headers=self.headers, data=self.datapost, timeout=5)
 
                 if response.status_code == 200:
@@ -57,7 +58,7 @@ class CustomRequests(threading.Thread):
                 else:
                     logging.info(' [!] request.status_code "%s"  with datapost "%s"' % (response.status_code, self.datapost))
 
-                if self.pattern in response.text:
+                if self.pattern not in response.text:
                     os.system('echo "%s" >> ok.txt' % self.datapost)
                     print(' ✔️ aqui -> %s' % self.datapost)
 
