@@ -52,6 +52,9 @@ Ele não é perfeito, com possíveis vários bugs, porém atende a demanda, melh
 
 Para salvar exploits usados na exploração de challenges no [Hack the Box](https://www.hackthebox.eu/)
 
+* ``m0rsarchive.py``
+* ``underconstruction.py``
+
 ### Anotações \0.0/
 
 #### Cross-Site Scripting
