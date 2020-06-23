@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[file.ext] a brief description about"
+title: a brief description about
 labels: enhancement
 assignees: ekaxis
 
