@@ -1,5 +1,7 @@
 # zpTFadE
 
+> consultar README.md da pasta exploits-htb para informações adicionais
+
 sh, py, php, txt, yml
 
 bash <(curl -Ss https://raw.githubusercontent.com/ekaxis/zpTFadE/master/init-workstation.sh)
@@ -55,13 +57,3 @@ Para salvar exploits usados na exploração de challenges no [Hack the Box](http
 * ``m0rsarchive.py``
 * ``underconstruction.py``
 
-### Anotações \0.0/
-
-#### Cross-Site Scripting
-
-* [Artigo - Bypassing XSS Detection Mechanisms](https://github.com/s0md3v/MyPapers/tree/master/Bypassing-XSS-detection-mechanisms)
-    * Ótimo artigo para um entendimento mais profundo no assunto
-* [Site sobre XSS](http://www.xss-payloads.com/)
-    * Contém payloads, ferramentas, tutoriais, videos, desafios e várias outras coisas sobre XSS
-* [Artigo sobre bypass](https://xsses.rocks/sample-page/)
-* [Artigo sobre XSS](https://github.com/s0md3v/AwesomeXSS)
