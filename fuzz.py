@@ -20,9 +20,7 @@ from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 
 
-URL_LOGIN = 'http://docker.hackthebox.eu:31094/administrat/index.php'
-
-headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+URL_LOGIN = ''
 
 def err(msg): print('\n ops... error > %s' % msg); exit(1)
 
@@ -30,8 +28,7 @@ class CustomRequests(threading.Thread):
 
     headers_class = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Accept-Encoding': 'gzip, deflate'
     }
 
     def __init__(self, method_req='POST', url='', pattern='', payload='', datapost=None, headers=None):
@@ -42,6 +39,8 @@ class CustomRequests(threading.Thread):
         self.url = url
         self.datapost = datapost
         self.method_req = method_req
+        if self.method_req == 'POST': self.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+
         self.pattern = pattern
         # implementar uso de cookies
 
@@ -51,7 +50,7 @@ class CustomRequests(threading.Thread):
         while not self.kill.is_set():
             try:
                 sys.stdout.write('\r try > %s %s' % (self.datapost, ' '*40))
-                response = requests.post(self.url, headers=self.headers, data=self.datapost, timeout=5)
+                response = requests.request(self.method_req.upper(), self.url, headers=self.headers, data=self.datapost, timeout=5)
 
                 if response.status_code == 200:
                     logging.info(' [+] sucessful request with response code "%s" and datapost="%s"' % (response.status_code, self.datapost))
@@ -106,7 +105,7 @@ if __name__ == '__main__':
                 for payload in wordlist:
 
                     while len(list_active_threads) >= 50:
-                        print('\n max lenght thrads [%s]' % len(threads))
+                        print('\n max lenght threads [%s]' % len(threads))
                         for uid_thread, thread in threads.items():
                             if thread.is_alive() is False:
                                 if thread in list_active_threads:
