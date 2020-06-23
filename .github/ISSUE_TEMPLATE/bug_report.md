@@ -1,7 +1,7 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: "[file.ext] [bug] brief description of the problem"
+about: to facilitate understanding of the problem
+title: "[file.ext] brief description of the problem"
 labels: bug
 assignees: ekaxis
 
@@ -12,9 +12,8 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. run with '...' parameter
+2. try with '...' request
 4. See error
 
 **Expected behavior**
